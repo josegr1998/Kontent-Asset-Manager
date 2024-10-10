@@ -1,13 +1,13 @@
 import React from "react";
 import { fetchAllAssets } from "./Assets.utils";
-import { Listing } from "./components/Listing";
+import { AssetsListing } from "./components/AssetsListing/AssetsListing";
 
 export const Assets = async () => {
   const assets = await fetchAllAssets();
 
   return (
     <>
-      <Listing assets={assets} />
+      <AssetsListing assets={assets} />
     </>
   );
 };
