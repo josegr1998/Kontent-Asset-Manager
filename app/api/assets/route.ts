@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const page = Number(searchParams.get("page")) || 1;
 
-    const assets = await fetchAllAssets(page);
+    const assets = await fetchAllAssets();
 
     const paginationAssets = assets.slice((page - 1) * 10, page * 10);
 

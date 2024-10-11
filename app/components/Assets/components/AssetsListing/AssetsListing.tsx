@@ -15,19 +15,13 @@ type Props = {
 };
 
 export const AssetsListing = ({ assets, hasNextPage, hasPrevPage }: Props) => {
-  const numberOfAssets = assets.length;
-
-  const { onNextPage, onPrevPage, pagination } = usePagination({
-    numberOfAssets: numberOfAssets,
-  });
+  const { onNextPage, onPrevPage, currentPage } = usePagination();
 
   return (
     <>
       <div className="flex justify-between w-full">
         <h2 className="text-2xl">Images</h2>
-        <h3 className="text-xl font-bold">
-          Page {pagination.currentPage} of 23
-        </h3>
+        <h3 className="text-xl font-bold">Page {currentPage} of 23</h3>
       </div>
       {assets.map((asset) => (
         <AssetCard {...asset} key={asset.id} />

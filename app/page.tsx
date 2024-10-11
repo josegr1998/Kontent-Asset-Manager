@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { Assets } from "./components/Assets/Assets";
 
 export default async function Home({

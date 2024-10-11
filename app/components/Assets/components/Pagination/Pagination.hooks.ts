@@ -1,50 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ASSETS_PER_PAGE } from "../../Assets.consts";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
-type Props = {
-  numberOfAssets: number;
-};
-
-export const usePagination = ({ numberOfAssets }: Props) => {
+export const usePagination = () => {
   const searchParams = useSearchParams();
 
   const router = useRouter();
 
-  const [pagination, setPagination] = useState({
-    currentPage: Number(searchParams.get("page")) || 1,
-    isNextPage: true,
-    isPrevPage: false,
-  });
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
 
   const onNextPage = () => {
-    setPagination((prevState) => ({
-      ...prevState,
-      currentPage: prevState.currentPage + 1,
-      isPrevPage: true,
-      isNextPage: ASSETS_PER_PAGE * pagination.currentPage <= numberOfAssets,
-    }));
+    setCurrentPage((prevState) => prevState + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const onPrevPage = () => {
-    setPagination((prevState) => ({
-      ...prevState,
-      currentPage: prevState.currentPage - 1,
-      isPrevPage: prevState.currentPage - 1 > 0,
-    }));
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setCurrentPage((prevState) => prevState - 1);
   };
 
   useEffect(() => {
-    router.push(`?page=${pagination.currentPage}`);
-  }, [pagination.currentPage]);
+    router.push(`?page=${currentPage}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   return {
-    pagination,
+    currentPage,
     onPrevPage,
     onNextPage,
   };

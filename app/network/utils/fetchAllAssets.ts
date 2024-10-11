@@ -16,7 +16,7 @@ const mapAsset = (asset: KontentAsset): Asset => ({
   size: `${(asset.size / (1024 * 1024)).toFixed(2)} mb`,
 });
 
-export const fetchAllAssets = async (page: number) => {
+export const fetchAllAssets = async () => {
   let allAssets: Response["data"]["items"] = [];
   let continuationToken: string | undefined = undefined;
 
