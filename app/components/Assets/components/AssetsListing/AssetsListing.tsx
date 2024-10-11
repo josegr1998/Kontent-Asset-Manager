@@ -5,24 +5,20 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Pagination } from "../Pagination/Pagination";
-import { usePagination } from "./AssetsListing.hooks";
-import { filterAssetsList } from "./AssetsListing.utils";
 import { AssetCard } from "../AssetCard/AssetCard";
+import { usePagination } from "../Pagination/Pagination.hooks";
 
 type Props = {
   assets: Asset[];
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
 };
 
-export const AssetsListing = ({ assets }: Props) => {
+export const AssetsListing = ({ assets, hasNextPage, hasPrevPage }: Props) => {
   const numberOfAssets = assets.length;
 
   const { onNextPage, onPrevPage, pagination } = usePagination({
     numberOfAssets: numberOfAssets,
-  });
-
-  const displayAssets = filterAssetsList({
-    assets,
-    currentPage: pagination.currentPage,
   });
 
   return (
@@ -30,15 +26,15 @@ export const AssetsListing = ({ assets }: Props) => {
       <div className="flex justify-between w-full">
         <h2 className="text-2xl">Images</h2>
         <h3 className="text-xl font-bold">
-          Page {pagination.currentPage + 1} of 23
+          Page {pagination.currentPage} of 23
         </h3>
       </div>
-      {displayAssets.map((asset) => (
+      {assets.map((asset) => (
         <AssetCard {...asset} key={asset.id} />
       ))}
       <Pagination
-        isNextPage={pagination.isNextPage}
-        isPrevPage={pagination.isPrevPage}
+        isNextPage={hasNextPage}
+        isPrevPage={hasPrevPage}
         onNextPage={onNextPage}
         onPrevPage={onPrevPage}
       />

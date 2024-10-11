@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { ASSETS_PER_PAGE } from "./AssetsListing.consts";
+import { useEffect, useState } from "react";
+import { ASSETS_PER_PAGE } from "../../Assets.consts";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type Props = {
   numberOfAssets: number;
 };
 
 export const usePagination = ({ numberOfAssets }: Props) => {
+  const searchParams = useSearchParams();
+
+  const router = useRouter();
+
   const [pagination, setPagination] = useState({
-    currentPage: 0,
+    currentPage: Number(searchParams.get("page")) || 1,
     isNextPage: true,
     isPrevPage: false,
   });
@@ -32,6 +38,10 @@ export const usePagination = ({ numberOfAssets }: Props) => {
     }));
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    router.push(`?page=${pagination.currentPage}`);
+  }, [pagination.currentPage]);
 
   return {
     pagination,

@@ -16,7 +16,7 @@ const mapAsset = (asset: KontentAsset): Asset => ({
   size: `${(asset.size / (1024 * 1024)).toFixed(2)} mb`,
 });
 
-export const fetchAllAssets = async () => {
+export const fetchAllAssets = async (page: number) => {
   let allAssets: Response["data"]["items"] = [];
   let continuationToken: string | undefined = undefined;
 
@@ -31,7 +31,9 @@ export const fetchAllAssets = async () => {
     continuationToken = response.data.pagination.continuationToken;
   } while (continuationToken);
 
-  return allAssets
+  const assets = allAssets
     .sort((a, b) => b.size - a.size)
-    .map((asset) => JSON.parse(JSON.stringify(mapAsset(asset))));
+    .map((asset) => JSON.parse(JSON.stringify(mapAsset(asset))) as Asset);
+
+  return assets;
 };
